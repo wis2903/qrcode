@@ -1,0 +1,37 @@
+{
+    "radius": "radius.m",
+    "font-size": "typo.font-size-7",
+    "font-weight": "typo.font-weight-medium",
+    "padding": {
+        "default": "space.xxxs space.xs",
+        "circle": "space.xxxs",
+        "large": "space.xxs space.s"
+    },
+    "border-color": {
+        "primary": "color.navi-1",
+        "secondary": "color.grey-4",
+        "disabled": "color.grey-7"
+    },
+    "background-color": {
+        "secondary": {
+            "default": "color.transparent",
+            "hover": "color.grey-8",
+            "active": "color.grey-8"
+        },
+        "primary": {
+            "default": "color.navi-1",
+            "hover": "color.black",
+            "active": "color.black"
+        },
+        "disabled": {
+            "default": "color.grey-7",
+            "hover": "color.grey-7",
+            "active": "color.grey-7"
+        }
+    },
+    "text-color": {
+        "secondary": "color.grey-1",
+        "primary": "color.white",
+        "disabled": "color.grey-4"
+    }
+}

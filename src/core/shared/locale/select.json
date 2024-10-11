@@ -1,0 +1,14 @@
+{
+    "en": {
+        "empty": "No records found",
+        "loading": "Loading...",
+        "select-all": "Select all",
+        "deselect-all": "Deselect all"
+    },
+    "vi": {
+        "empty": "Không có kết quả",
+        "loading": "Đang tải...",
+        "select-all": "Chọn tất cả",
+        "deselect-all": "Bỏ chọn tất cả"
+    }
+}

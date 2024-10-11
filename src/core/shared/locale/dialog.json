@@ -1,0 +1,24 @@
+{
+    "en": {
+        "close": "Close",
+        "yes": "Yes",
+        "no": "No",
+        "error": "Error",
+        "notification": "Notification",
+        "confirm": "Please confirm your action",
+        "processing-line-1": "Please wait. This may take a few seconds.",
+        "processing-line-2": "Request is being processed...",
+        "wait": "Please wait"
+    },
+    "vi": {
+        "close": "Đóng",
+        "yes": "Có",
+        "no": "Không",
+        "error": "Lỗi",
+        "notification": "Thông báo",
+        "confirm": "Vui lòng xác nhận hàng động",
+        "processing-line-1": "Vui lòng đợi. Quá trình này có thể mất vài giây.",
+        "processing-line-2": "Yêu cầu đang được thực hiện...",
+        "wait": "Vui lòng đợi"
+    }
+}

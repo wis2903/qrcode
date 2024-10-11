@@ -1,0 +1,18 @@
+{
+    "font-size": "typo.font-size-7",
+    "item": {
+        "font-size": "typo.font-size-7",
+        "padding": "space.xxxxs space.xxs",
+        "radius": "radius.round",
+        "background-color": {
+            "default": "color.transparent",
+            "hover": "color.grey-8",
+            "active": "color.grey-7",
+            "selected": "color.primary"
+        },
+        "text-color": {
+            "default": "color.grey-1",
+            "selected": "color.white"
+        }
+    }
+}

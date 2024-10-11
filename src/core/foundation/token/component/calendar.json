@@ -1,0 +1,43 @@
+{
+    "padding": "space.zero",
+    "radius": "radius.s",
+    "border-color": "color.grey-7",
+    "background-color": "color.white",
+    "header": {
+        "padding": "space.xs space.xxs",
+        "font-size": "typo.font-size-6",
+        "font-weight": "typo.font-weight-super-bold",
+        "divider-color": "color.grey-6",
+        "text-color": "color.grey-1",
+        "nav": {
+            "radius": "radius.circle",
+            "background-color": {
+                "default": "color.transparent",
+                "hover": "color.grey-8",
+                "active": "color.grey-7"
+            }
+        }
+    },
+    "body": {
+        "padding": "space.xs",
+        "font-size": "typo.font-size-7",
+        "weekday": {
+            "text-color": "color.grey-1",
+            "font-weight": "typo.font-weight-super-bold"
+        },
+        "date": {
+            "text-color": {
+                "default": "color.grey-1",
+                "disabled": "color.grey-4"
+            },
+            "font-weight": "typo.font-weight-medium",
+            "radius": "radius.circle",
+            "background-color": {
+                "default": "color.transparent",
+                "hover": "color.grey-8",
+                "active": "color.grey-7",
+                "disabled": "color.transparent"
+            }
+        }
+    }
+}

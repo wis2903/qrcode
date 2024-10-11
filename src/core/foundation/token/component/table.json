@@ -1,0 +1,23 @@
+{
+    "border-color": "color.grey-6",
+    "radius": "radius.s",
+    "head": {
+        "divider-color": "color.grey-2",
+        "column": {
+            "background-color": "color.grey-8",
+            "text-color": "color.grey-1",
+            "padding": "space.xs space.xs",
+            "font-size": "typo.font-size-7",
+            "font-weight": "typo.font-weight-super-bold"
+        }
+    },
+    "body": {
+        "divider-color": "color.grey-7",
+        "column": {
+            "text-color": "color.grey-1",
+            "padding": "space.xs space.xs",
+            "font-size": "typo.font-size-7",
+            "font-weight": "typo.font-weight-regular"
+        }
+    }
+}

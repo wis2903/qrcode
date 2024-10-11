@@ -1,0 +1,10 @@
+{
+    "en": {
+        "empty": "No records found",
+        "loading": "Loading..."
+    },
+    "vi": {
+        "empty": "Không có kết quả",
+        "loading": "Đang tải..."
+    }
+}

@@ -1,0 +1,19 @@
+{
+    "font-name": "Noto Sans",
+    "font-url": "https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap",
+    "font-size-1": "32px",
+    "font-size-2": "24px",
+    "font-size-3": "22px",
+    "font-size-4": "20px",
+    "font-size-5": "18px",
+    "font-size-6": "16px",
+    "font-size-7": "14px",
+    "font-size-8": "13px",
+    "font-size-9": "10px",
+    "font-size-10": "8px",
+    "font-weight-thin": "300",
+    "font-weight-regular": "400",
+    "font-weight-medium": "500",
+    "font-weight-bold": "600",
+    "font-weight-super-bold": "700"
+}

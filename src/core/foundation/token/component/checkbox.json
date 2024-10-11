@@ -1,0 +1,22 @@
+{
+    "box": {
+        "width": "space.s",
+        "height": "space.s",
+        "radius": "radius.s",
+        "background-color": {
+            "default": "color.transparent",
+            "disabled": "color.grey-8",
+            "checked": "color.primary"
+        },
+        "border-color": {
+            "default": "color.grey-4",
+            "hover": "color.primary",
+            "checked": "color.primary"
+        }
+    },
+    "label": {
+        "font-size": "typo.font-size-7",
+        "line-height": "typo.font-size-5",
+        "text-color": "color.grey-2"
+    }
+}

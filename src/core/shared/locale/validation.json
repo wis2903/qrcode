@@ -1,0 +1,14 @@
+{
+    "en": {
+        "required": "Required",
+        "invalid-email": "Enter a valid email address",
+        "invalid-phone": "Enter a valid phone number",
+        "future-date": "Must be a future date"
+    },
+    "vi": {
+        "required": "Bắt buộc",
+        "invalid-email": "Định dạng email không đúng",
+        "invalid-phone": "Định dạng số điện thoại không đúng",
+        "future-date": "Phải lớn hơn ngày hiện tại"
+    }
+}
