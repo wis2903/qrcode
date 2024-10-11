@@ -31,6 +31,8 @@ export default ({ onClose }: IScanScreenProps): JSX.Element => {
     };
 
     const handleOnScanSuccess = (data: IDetectedBarcode[]): void => {
+        if (processing) return;
+        
         try {
             if (!Array.isArray(data)) throw new Error();
             const po = new PandaObject(data[0]).get('rawValue');
@@ -82,7 +84,6 @@ export default ({ onClose }: IScanScreenProps): JSX.Element => {
             >
                 <StyledScannerContainer width="100%">
                     <Scanner
-                        paused={processing}
                         classNames={{ container: 'scanner' }}
                         onScan={handleOnScanSuccess}
                         onError={handleOnScanError}
