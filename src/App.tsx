@@ -2,7 +2,7 @@
 import axios from 'axios';
 import React from 'react';
 import styled from 'styled-components';
-import './app.css';
+import './App.css';
 
 import { IDetectedBarcode, Scanner } from '@yudiel/react-qr-scanner';
 import { DialogProvider, useDialogProvider } from './core/component/dialog/provider';
