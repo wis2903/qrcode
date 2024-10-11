@@ -6,7 +6,7 @@ import { FlexboxComponent } from '../flexbox';
 import { ScrollAreaComponent } from '../scrollarea';
 
 const slideIn = keyframes`
-    0%{ transform: translateY(150%); }
+    0%{ transform: translateY(-100%); }
     100% { transform: translateY(0); }
 `;
 
@@ -141,11 +141,11 @@ export const StyledDialogComponentContainer = styled(FlexboxComponent)<{
                 return `
                     ${StyledDialogComponentWrapper} {
                         width: auto;
-                        top: auto;
+                        top: 20px;
                         left: 50%;
                         transform: translate(-50%, 0);
                         right: auto;
-                        bottom: 20px;
+                        bottom: auto;
 
                         ${StyledDialogComponentBody}{
                             padding: ${token.get<string>('global.space.xs')} ${token.get<string>(
