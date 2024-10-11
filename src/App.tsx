@@ -150,6 +150,7 @@ const Comp = (): JSX.Element => {
                     borderRadius="8px"
                     padding="12px"
                     gap="20px"
+                    backgroundColor={token.get<string>('global.color.grey-9')}
                     borderColor={token.get<string>('global.color.grey-7')}
                     direction={FlexboxVariant.direction.column}
                 >
