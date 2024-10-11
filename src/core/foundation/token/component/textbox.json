@@ -1,6 +1,6 @@
 {
     "radius": "radius.m",
-    "font-size": "typo.font-size-7",
+    "font-size": "typo.font-size-6",
     "padding": "space.xxxs space.xxs",
     "placeholder-color": "color.grey-4",
     "border-color": {

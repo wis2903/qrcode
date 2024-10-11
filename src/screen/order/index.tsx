@@ -6,6 +6,7 @@ import React from 'react';
 
 import { ButtonComponent } from '../../core/component/button';
 import { DatePickerComponent } from '../../core/component/datepicker';
+import { useDialogProvider } from '../../core/component/dialog/provider';
 import { DividerComponent } from '../../core/component/divider';
 import { FlexboxComponent } from '../../core/component/flexbox';
 import { PaginationComponent } from '../../core/component/pagination';
@@ -13,6 +14,7 @@ import { PlainTextComponent } from '../../core/component/plain';
 import { ScrollAreaComponent } from '../../core/component/scrollarea';
 import { SkeletonComponent } from '../../core/component/skeleton';
 import { TextboxComponent } from '../../core/component/textbox';
+import { DownloadIconOutline } from '../../core/foundation/icon/outline/download';
 import { SearchIconOutline } from '../../core/foundation/icon/outline/search';
 import { token } from '../../core/foundation/token';
 import { FlexboxVariant } from '../../core/shared/constant';
@@ -20,12 +22,19 @@ import { PandaDate } from '../../core/shared/lib/date';
 import { PandaObject } from '../../core/shared/lib/object';
 import { formatNumber } from '../../core/shared/util';
 import { QRCodeIcon } from '../../icon/qr-code';
+import { CSV } from '../../lib/csv';
 
 interface IOrderScreenProps {
     onRequestScan?: VoidFunction;
 }
+interface IHandleFetchingOrdersResult {
+    total: number;
+    records: Record<string, unknown>[];
+}
 
 export default ({ onRequestScan }: IOrderScreenProps): JSX.Element => {
+    const dialog = useDialogProvider();
+
     const [fetching, setFetching] = React.useState<boolean>(true);
     const [orders, setOrders] = React.useState<Record<string, unknown>[]>([]);
     const [total, setTotal] = React.useState<number>(0);
@@ -35,8 +44,13 @@ export default ({ onRequestScan }: IOrderScreenProps): JSX.Element => {
     const [limit] = React.useState<number>(10);
     const [page, setPage] = React.useState<number>(0);
 
-    React.useEffect(() => {
-        let url = `https://api.goku.dev/api/v1/pack-order?limit=${limit}&page=${page + 1}`;
+    const handleFetchingOrders = async (params?: {
+        limit: number;
+        page: number;
+    }): Promise<IHandleFetchingOrdersResult> => {
+        let url = `https://api.goku.dev/api/v1/pack-order?limit=${params?.limit || limit}&page=${
+            (params?.page || page) + 1
+        }`;
         if (keyword) url += `&keyword=${keyword}`;
         if (createdFrom) {
             url += `&date_created_from=${new PandaDate(
@@ -46,18 +60,60 @@ export default ({ onRequestScan }: IOrderScreenProps): JSX.Element => {
         if (createdTo) {
             url += `&date_created_to=${new PandaDate(createdTo).endOfTheDay.raw.toISOString()}`;
         }
-        axios
-            .get(url)
-            .then((response) => {
-                const data = response.data.data;
-                const total = Number(response.data.total) || 0;
-                setTotal(total);
-                if (Array.isArray(data)) setOrders(data);
-                setFetching(false);
-            })
-            .catch(() => {
-                // handle error
+
+        try {
+            const response = await axios.get(url);
+            const data = response.data.data;
+            return {
+                total: Number(response.data.total) || 0,
+                records: Array.isArray(data) ? data : [],
+            };
+        } catch (e) {
+            return {
+                total: 0,
+                records: [],
+            };
+        }
+    };
+
+    const handleExportOrders = async (): Promise<void> => {
+        dialog.setLoading(true);
+        dialog.open({ content: '' });
+        const countingTotalResponse = await handleFetchingOrders({
+            page: 0,
+            limit: 1,
+        });
+        const numberOfRequests = Math.ceil(countingTotalResponse.total / limit);
+        let results: Record<string, unknown>[] = [];
+        for (let i = 0; i < numberOfRequests; i++) {
+            const fetchingOrdersResponse = await handleFetchingOrders({ page: i, limit });
+            results = results.concat(fetchingOrdersResponse.records);
+        }
+        setTimeout(() => {
+            CSV.downloadFromJson({
+                name: `scanned-orders-${+new Date()}`,
+                data: results
+                    .map((item) => new PandaObject(item))
+                    .map((item) => ({
+                        'PO number': CSV.formatValueAdvance(`'${String(item.get('po_number'))}`),
+                        'Created date': CSV.formatValueAdvance(
+                            new PandaDate(
+                                String(item.get('date_created'))
+                            ).toDateTimeStringWithoutComma()
+                        ),
+                    })),
             });
+            dialog.setLoading(false);
+            dialog.close();
+        }, 1000);
+    };
+
+    React.useEffect(() => {
+        handleFetchingOrders().then(({ total: _total, records: _records }) => {
+            setTotal(_total);
+            setOrders(_records);
+            setFetching(false);
+        });
     }, [
         JSON.stringify({
             keyword,
@@ -83,19 +139,24 @@ export default ({ onRequestScan }: IOrderScreenProps): JSX.Element => {
                 <PlainTextComponent
                     ellipsis
                     whiteSpace="nowrap"
-                    width="120px"
+                    width="160px"
                     text={`Orders ${orders.length ? `(${formatNumber(orders.length)})` : ''}`}
-                    fontSize="16px"
+                    fontSize="20px"
                     fontWeight="bold"
                 />
                 <FlexboxComponent width="100%" gap="8px" justify={FlexboxVariant.alignment.end}>
-                    {/* <ButtonComponent>
+                    <ButtonComponent onClick={handleExportOrders}>
                         <DownloadIconOutline width={16} height={16} />
                         Export
-                    </ButtonComponent> */}
+                    </ButtonComponent>
                     <ButtonComponent primary onClick={onRequestScan}>
-                        <QRCodeIcon width="14px" height="14px" color="white" />
-                        Scan
+                        <QRCodeIcon width="16px" height="16px" color="white" />
+                        <PlainTextComponent
+                            ellipsis
+                            whiteSpace="nowwrap"
+                            margin="-1px 0 0"
+                            text="Scan"
+                        />
                     </ButtonComponent>
                 </FlexboxComponent>
             </FlexboxComponent>
@@ -152,7 +213,7 @@ export default ({ onRequestScan }: IOrderScreenProps): JSX.Element => {
                             clearable
                             width="100%"
                             placeholder="Search"
-                            suffix={<SearchIconOutline width={16} height={16} />}
+                            suffix={<SearchIconOutline width={18} height={18} />}
                             onChange={(e): void => {
                                 setPage(0);
                                 setKeyword(e.target.value || '');

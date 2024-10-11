@@ -43,7 +43,10 @@
   },
   "devDependencies": {
     "@tinymce/tinymce-react": "^5.1.1",
+    "@types/react-csv": "^1.1.10",
     "axios": "^1.7.7",
+    "csvtojson": "^2.0.10",
+    "react-csv": "^2.2.2",
     "react-uuid": "^2.0.0",
     "simplebar-react": "^3.2.6",
     "styled-components": "^6.1.13"

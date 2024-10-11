@@ -81,11 +81,11 @@ export const DialogComponent = ({
                             >
                                 <PlainTextComponent
                                     text={locale.get('processing-line-1')}
-                                    fontSize={token.get<string>('global.typo.font-size-7')}
+                                    fontSize={token.get<string>('global.typo.font-size-6')}
                                 />
                                 <PlainTextComponent
                                     text={customLoadingMessage || locale.get('processing-line-2')}
-                                    fontSize={token.get<string>('global.typo.font-size-7')}
+                                    fontSize={token.get<string>('global.typo.font-size-6')}
                                 />
                             </FlexboxComponent>
                         </FlexboxComponent>

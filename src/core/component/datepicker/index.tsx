@@ -135,7 +135,7 @@ const DatePickerComponent = (props: IDatePickerComponentProps): JSX.Element => {
                     hasError={hasError}
                     highlighted={highlightWhenHasValue && !!value}
                     disabled={disabled}
-                    readOnly={readOnly}
+                    readOnly={true}
                     value={typingText}
                     label={label}
                     width="100%"

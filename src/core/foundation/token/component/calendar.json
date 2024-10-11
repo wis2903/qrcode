@@ -5,7 +5,7 @@
     "background-color": "color.white",
     "header": {
         "padding": "space.xs space.xxs",
-        "font-size": "typo.font-size-6",
+        "font-size": "typo.font-size-5",
         "font-weight": "typo.font-weight-super-bold",
         "divider-color": "color.grey-6",
         "text-color": "color.grey-1",
@@ -20,7 +20,7 @@
     },
     "body": {
         "padding": "space.xs",
-        "font-size": "typo.font-size-7",
+        "font-size": "typo.font-size-6",
         "weekday": {
             "text-color": "color.grey-1",
             "font-weight": "typo.font-weight-super-bold"

@@ -169,7 +169,7 @@ export const StyledTextboxContainer = styled.div<{
         `;
     }}
 
-    ${(props): string => {
+    /* ${(props): string => {
         if (!props.$disabled && !props.$readOnly) return '';
 
         return `
@@ -192,7 +192,7 @@ export const StyledTextboxContainer = styled.div<{
                 )};
             }
         `;
-    }}
+    }} */
 
     ${(props): string => {
         switch (props.$align) {

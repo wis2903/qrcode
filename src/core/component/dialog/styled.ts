@@ -49,7 +49,7 @@ export const StyledDialogComponentCloseButton = styled.button`
 
 export const StyledDialogComponentTitle = styled.h3`
     margin: 0;
-    font-size: ${token.get<string>('global.typo.font-size-6')};
+    font-size: ${token.get<string>('global.typo.font-size-4')};
     font-weight: ${token.get<string>('global.typo.font-weight-super-bold')};
     width: max-content;
     word-break: break-word;
@@ -60,11 +60,11 @@ export const StyledDialogComponentTitle = styled.h3`
 
 export const StyledDialogComponentFooter = styled(FlexboxComponent)`
     margin-top: ${token.get<string>('global.space.xxxs')};
-    padding: 0 ${token.get<string>('global.space.l')} ${token.get<string>('global.space.l')};
+    padding: 8px ${token.get<string>('global.space.l')} ${token.get<string>('global.space.l')};
 `;
 
 export const StyledDialogComponentContent = styled(ScrollAreaComponent)`
-    font-size: 13px;
+    font-size: 14px;
     max-height: calc(100vh - 200px);
     display: flex;
     align-items: flex-start;
@@ -160,13 +160,13 @@ export const StyledDialogComponentContainer = styled(FlexboxComponent)<{
                     }
 
                     ${StyledDialogComponentCloseButton} {
-                        top: 11px;
+                        top: 10px;
                         right: ${token.get<string>('global.space.xs')};
                     }
 
                     ${StyledDialogComponentContent} {
                         align-items: center;
-                        gap: ${token.get<string>('global.space.xs')};
+                        gap: ${token.get<string>('global.space.xxs')};
                         padding: ${token.get<string>('global.space.xxxxs')} 0;
                         font-weight: ${token.get<string>('global.typo.font-weight-regular')};
                         font-size: ${token.get<string>('global.typo.font-size-7')};
