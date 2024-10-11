@@ -62,12 +62,9 @@ const Comp = (): JSX.Element => {
             dialog.open({ content: '' });
             setTimeout(() => {
                 axios
-                    .post(
-                        'https://corsanywhere.herokuapp.com/http://178.128.95.181:8888/api/v1/pack-order',
-                        {
-                            po_number: po,
-                        }
-                    )
+                    .post('http://178.128.95.181:8888/api/v1/pack-order', {
+                        po_number: po,
+                    })
                     .then(() => {
                         dialog.open({
                             type: DialogTypeEnum.info,
@@ -93,12 +90,6 @@ const Comp = (): JSX.Element => {
 
     const handleOnScanError = (): void =>
         handleShowErrorDialog('An error occurred while accessing camera');
-
-    React.useEffect(() => {
-        axios.get(
-            'http://178.128.95.181:8888/api/v1/pack-order'
-        );
-    }, []);
 
     return (
         <FlexboxComponent
