@@ -9,6 +9,7 @@ import { FlexboxComponent } from '../../core/component/flexbox';
 import { CloseIconOutline } from '../../core/foundation/icon/outline/close';
 import { token } from '../../core/foundation/token';
 import { FlexboxVariant } from '../../core/shared/constant';
+import { PandaDebouncer } from '../../core/shared/lib/debouncer';
 import { PandaObject } from '../../core/shared/lib/object';
 import { DialogTypeEnum } from '../../core/shared/type';
 import { StyledCloseButton, StyledScannerContainer } from './styled';
@@ -21,6 +22,7 @@ export default ({ onClose }: IScanScreenProps): JSX.Element => {
     const dialog = useDialogProvider();
 
     const [processing, setProcessing] = React.useState<boolean>(false);
+    const [debouncer] = React.useState<PandaDebouncer>(new PandaDebouncer(2000));
 
     const handleShowErrorDialog = (message?: string): void => {
         dialog.open({
@@ -32,7 +34,7 @@ export default ({ onClose }: IScanScreenProps): JSX.Element => {
 
     const handleOnScanSuccess = (data: IDetectedBarcode[]): void => {
         if (processing) return;
-        
+
         try {
             if (!Array.isArray(data)) throw new Error();
             const po = new PandaObject(data[0]).get('rawValue');
@@ -47,7 +49,6 @@ export default ({ onClose }: IScanScreenProps): JSX.Element => {
                     })
                     .then(() => {
                         dialog.setLoading(false);
-                        setProcessing(false);
                         dialog.open({
                             type: DialogTypeEnum.success,
                             content: 'Order has been created',
@@ -57,6 +58,11 @@ export default ({ onClose }: IScanScreenProps): JSX.Element => {
                     .catch(() => {
                         dialog.setLoading(false);
                         handleShowErrorDialog('An error occurred while creating order');
+                    })
+                    .finally(() => {
+                        debouncer.execute(() => {
+                            setProcessing(false);
+                        });
                     });
             }, 1000);
         } catch (e) {
@@ -66,6 +72,12 @@ export default ({ onClose }: IScanScreenProps): JSX.Element => {
 
     const handleOnScanError = (): void =>
         handleShowErrorDialog('An error occurred while accessing camera');
+
+    React.useEffect(() => {
+        return (): void => {
+            debouncer.destroy();
+        };
+    }, []);
 
     return (
         <FlexboxComponent
