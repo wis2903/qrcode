@@ -52,14 +52,11 @@ export default ({ onRequestScan }: IOrderScreenProps): JSX.Element => {
             (params?.page || page) + 1
         }`;
         if (keyword) url += `&keyword=${keyword}`;
-        if (createdFrom) {
-            url += `&date_created_from=${new PandaDate(
-                createdFrom
-            ).beginOfTheDay.raw.toISOString()}`;
-        }
-        if (createdTo) {
-            url += `&date_created_to=${new PandaDate(createdTo).endOfTheDay.raw.toISOString()}`;
-        }
+
+        const _createdFrom = createdFrom || new Date('2000/01/01');
+        const _createdTo = createdTo || PandaDate.today.endOfTheDay.raw;
+        url += `&date_created_from=${new PandaDate(_createdFrom).beginOfTheDay.raw.toISOString()}`;
+        url += `&date_created_to=${new PandaDate(_createdTo).endOfTheDay.raw.toISOString()}`;
 
         try {
             const response = await axios.get(url);
@@ -141,7 +138,7 @@ export default ({ onRequestScan }: IOrderScreenProps): JSX.Element => {
                     whiteSpace="nowrap"
                     width="140px"
                     minWidth="140px"
-                    text={`Orders ${orders.length ? `(${formatNumber(orders.length)})` : ''}`}
+                    text={`Orders ${total ? `(${formatNumber(total)})` : ''}`}
                     fontSize="20px"
                     fontWeight="bold"
                 />
