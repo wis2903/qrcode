@@ -14,6 +14,7 @@ export interface IDatePickerComponentProps extends Omit<ICalendarComponentProps,
     clearable?: boolean;
     horizontalDirection?: HorizontalDirectionEnum;
     highlightWhenHasValue?: boolean;
+    label?: string;
     onChange?: (dt: Date | undefined) => void;
     onBlur?: (e: React.FocusEvent<HTMLInputElement, Element>) => void;
 }

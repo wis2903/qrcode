@@ -33,6 +33,7 @@ const DatePickerComponent = (props: IDatePickerComponentProps): JSX.Element => {
         clearable,
         highlightWhenHasValue,
         horizontalDirection,
+        label,
         onChange,
         onLoad,
         onBlur,
@@ -136,6 +137,7 @@ const DatePickerComponent = (props: IDatePickerComponentProps): JSX.Element => {
                     disabled={disabled}
                     readOnly={readOnly}
                     value={typingText}
+                    label={label}
                     width="100%"
                     prefix={prefix}
                     suffixCursor="pointer"
