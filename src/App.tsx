@@ -62,7 +62,7 @@ const Comp = (): JSX.Element => {
             dialog.open({ content: '' });
             setTimeout(() => {
                 axios
-                    .post('http://178.128.95.181:8888/api/v1/pack-order', {
+                    .post('https://goku.dev/api/v1/pack-order', {
                         po_number: po,
                     })
                     .then(() => {
