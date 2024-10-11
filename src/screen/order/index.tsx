@@ -127,8 +127,8 @@ export default ({ onRequestScan }: IOrderScreenProps): JSX.Element => {
         <>
             <FlexboxComponent
                 width="100%"
-                gap="12px"
-                padding="16px 20px"
+                gap="8px"
+                padding="16px 16px"
                 align={FlexboxVariant.alignment.center}
                 justify={FlexboxVariant.alignment.justify}
                 style={{
@@ -139,7 +139,8 @@ export default ({ onRequestScan }: IOrderScreenProps): JSX.Element => {
                 <PlainTextComponent
                     ellipsis
                     whiteSpace="nowrap"
-                    width="160px"
+                    width="140px"
+                    minWidth="140px"
                     text={`Orders ${orders.length ? `(${formatNumber(orders.length)})` : ''}`}
                     fontSize="20px"
                     fontWeight="bold"
@@ -163,7 +164,7 @@ export default ({ onRequestScan }: IOrderScreenProps): JSX.Element => {
 
             <FlexboxComponent
                 width="100%"
-                padding="20px"
+                padding="16px"
                 gap="20px"
                 direction={FlexboxVariant.direction.column}
             >

@@ -6,6 +6,7 @@ body {
     font-optical-sizing: auto;
     font-style: normal;
     font-variation-settings: 'wdth' 100;
+    letter-spacing: -0.3px;
 }
 
 * {
@@ -14,4 +15,5 @@ body {
     font-optical-sizing: auto;
     font-style: normal;
     font-variation-settings: 'wdth' 100;
+    letter-spacing: -0.3px;
 }
