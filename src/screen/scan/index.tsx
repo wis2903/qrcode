@@ -5,14 +5,21 @@ import React from 'react';
 
 import { IDetectedBarcode, Scanner } from '@yudiel/react-qr-scanner';
 import { useDialogProvider } from '../../core/component/dialog/provider';
-import { FlexboxComponent } from '../../core/component/flexbox';
 import { CloseIconOutline } from '../../core/foundation/icon/outline/close';
 import { token } from '../../core/foundation/token';
 import { FlexboxVariant } from '../../core/shared/constant';
 import { PandaDebouncer } from '../../core/shared/lib/debouncer';
 import { PandaObject } from '../../core/shared/lib/object';
 import { DialogTypeEnum } from '../../core/shared/type';
-import { StyledCloseButton, StyledScannerContainer } from './styled';
+
+import { FlexboxComponent } from '../../core/component/flexbox';
+import {
+    StyledCenterBox,
+    StyledCenterBoxContainer,
+    StyledCloseButton,
+    StyledScannerContainer,
+    StyledScanScreenContainer,
+} from './styled';
 
 interface IScanScreenProps {
     onClose?: VoidFunction;
@@ -64,7 +71,7 @@ export default ({ onClose }: IScanScreenProps): JSX.Element => {
                             setProcessing(false);
                         });
                     });
-            }, 1000);
+            }, 500);
         } catch (e) {
             handleShowErrorDialog('An error occurred while scanning the QR code');
         }
@@ -80,7 +87,7 @@ export default ({ onClose }: IScanScreenProps): JSX.Element => {
     }, []);
 
     return (
-        <FlexboxComponent
+        <StyledScanScreenContainer
             width="100%"
             height="100svh"
             gap="20px"
@@ -88,23 +95,31 @@ export default ({ onClose }: IScanScreenProps): JSX.Element => {
             justify={FlexboxVariant.alignment.center}
             direction={FlexboxVariant.direction.column}
         >
-            <FlexboxComponent
-                width="260px"
-                height="260px"
-                borderRadius="8px"
-                backgroundColor={token.get<string>('global.color.grey-8')}
-            >
-                <StyledScannerContainer width="100%">
-                    <Scanner
-                        classNames={{ container: 'scanner' }}
-                        onScan={handleOnScanSuccess}
-                        onError={handleOnScanError}
-                    />
-                </StyledScannerContainer>
+            <FlexboxComponent width="264px" height="264px">
+                <StyledCenterBoxContainer
+                    width="264px"
+                    height="264px"
+                    align={FlexboxVariant.alignment.center}
+                    justify={FlexboxVariant.alignment.center}
+                >
+                    <StyledCenterBox
+                        width="260px"
+                        height="260px"
+                        backgroundColor={token.get<string>('global.color.grey-6')}
+                    >
+                        <StyledScannerContainer width="100%" height="260px">
+                            <Scanner
+                                classNames={{ container: 'scanner' }}
+                                onScan={handleOnScanSuccess}
+                                onError={handleOnScanError}
+                            />
+                        </StyledScannerContainer>
+                    </StyledCenterBox>
+                </StyledCenterBoxContainer>
                 <StyledCloseButton circle borderColor="transparent" onClick={onClose}>
                     <CloseIconOutline width={16} height={16} />
                 </StyledCloseButton>
             </FlexboxComponent>
-        </FlexboxComponent>
+        </StyledScanScreenContainer>
     );
 };

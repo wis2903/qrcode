@@ -19,6 +19,7 @@ import { SearchIconOutline } from '../../core/foundation/icon/outline/search';
 import { token } from '../../core/foundation/token';
 import { FlexboxVariant } from '../../core/shared/constant';
 import { PandaDate } from '../../core/shared/lib/date';
+import { PandaDebouncer } from '../../core/shared/lib/debouncer';
 import { PandaObject } from '../../core/shared/lib/object';
 import { formatNumber } from '../../core/shared/util';
 import { QRCodeIcon } from '../../icon/qr-code';
@@ -35,6 +36,7 @@ interface IHandleFetchingOrdersResult {
 export default ({ onRequestScan }: IOrderScreenProps): JSX.Element => {
     const dialog = useDialogProvider();
 
+    const [debouncer] = React.useState<PandaDebouncer>(new PandaDebouncer(500));
     const [fetching, setFetching] = React.useState<boolean>(true);
     const [orders, setOrders] = React.useState<Record<string, unknown>[]>([]);
     const [total, setTotal] = React.useState<number>(0);
@@ -102,14 +104,17 @@ export default ({ onRequestScan }: IOrderScreenProps): JSX.Element => {
             });
             dialog.setLoading(false);
             dialog.close();
-        }, 1000);
+        }, 500);
     };
 
     React.useEffect(() => {
+        setFetching(true);
         handleFetchingOrders().then(({ total: _total, records: _records }) => {
-            setTotal(_total);
-            setOrders(_records);
-            setFetching(false);
+            debouncer.execute(() => {
+                setTotal(_total);
+                setOrders(_records);
+                setFetching(false);
+            });
         });
     }, [
         JSON.stringify({
@@ -119,6 +124,12 @@ export default ({ onRequestScan }: IOrderScreenProps): JSX.Element => {
             page,
         }),
     ]);
+
+    React.useEffect(() => {
+        return (): void => {
+            debouncer.destroy();
+        };
+    }, []);
 
     return (
         <>
@@ -222,7 +233,7 @@ export default ({ onRequestScan }: IOrderScreenProps): JSX.Element => {
 
                 <ScrollAreaComponent
                     width="100%"
-                    maxHeight="calc(100svh - 250px)"
+                    maxHeight="calc(100svh - 232px)"
                     gap="12px"
                     padding="12px"
                     borderRadius="4px"
