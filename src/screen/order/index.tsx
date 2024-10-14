@@ -21,9 +21,9 @@ import { FlexboxVariant } from '../../core/shared/constant';
 import { PandaDate } from '../../core/shared/lib/date';
 import { PandaDebouncer } from '../../core/shared/lib/debouncer';
 import { PandaObject } from '../../core/shared/lib/object';
+import { DialogTypeEnum } from '../../core/shared/type';
 import { formatNumber } from '../../core/shared/util';
 import { QRCodeIcon } from '../../icon/qr-code';
-import { CSV } from '../../lib/csv';
 
 interface IOrderScreenProps {
     onRequestScan?: VoidFunction;
@@ -46,22 +46,22 @@ export default ({ onRequestScan }: IOrderScreenProps): JSX.Element => {
     const [limit] = React.useState<number>(10);
     const [page, setPage] = React.useState<number>(0);
 
-    const handleFetchingOrders = async (params?: {
-        limit: number;
-        page: number;
-    }): Promise<IHandleFetchingOrdersResult> => {
-        let url = `https://api.goku.dev/api/v1/pack-order?limit=${params?.limit || limit}&page=${
-            (params?.page || page) + 1
-        }`;
+    const generateSearchUrlForCallingAPI = (config?: { forExporting: boolean }): string => {
+        let url = `https://api.goku.dev/api/v1/pack-order${config?.forExporting ? '/export' : ''}`;
+        if (!config?.forExporting) url += `?limit=${limit}&page=${page + 1}`;
+        else url += `?ts=${+new Date()}`;
         if (keyword) url += `&keyword=${keyword}`;
 
         const _createdFrom = createdFrom || new Date('2000/01/01');
         const _createdTo = createdTo || PandaDate.today.endOfTheDay.raw;
         url += `&date_created_from=${new PandaDate(_createdFrom).beginOfTheDay.raw.toISOString()}`;
         url += `&date_created_to=${new PandaDate(_createdTo).endOfTheDay.raw.toISOString()}`;
+        return url;
+    };
 
+    const handleFetchingOrders = async (): Promise<IHandleFetchingOrdersResult> => {
         try {
-            const response = await axios.get(url);
+            const response = await axios.get(generateSearchUrlForCallingAPI());
             const data = response.data.data;
             return {
                 total: Number(response.data.total) || 0,
@@ -78,33 +78,57 @@ export default ({ onRequestScan }: IOrderScreenProps): JSX.Element => {
     const handleExportOrders = async (): Promise<void> => {
         dialog.setLoading(true);
         dialog.open({ content: '' });
-        const countingTotalResponse = await handleFetchingOrders({
-            page: 0,
-            limit: 1,
-        });
-        const numberOfRequests = Math.ceil(countingTotalResponse.total / limit);
-        let results: Record<string, unknown>[] = [];
-        for (let i = 0; i < numberOfRequests; i++) {
-            const fetchingOrdersResponse = await handleFetchingOrders({ page: i, limit });
-            results = results.concat(fetchingOrdersResponse.records);
-        }
-        setTimeout(() => {
-            CSV.downloadFromJson({
-                name: `scanned-orders-${+new Date()}`,
-                data: results
-                    .map((item) => new PandaObject(item))
-                    .map((item) => ({
-                        'PO number': CSV.formatValueAdvance(`'${String(item.get('po_number'))}`),
-                        'Created date': CSV.formatValueAdvance(
-                            new PandaDate(
-                                String(item.get('date_created'))
-                            ).toDateTimeStringWithoutComma()
-                        ),
-                    })),
-            });
+        try {
+            const url = generateSearchUrlForCallingAPI({ forExporting: true });
+            const response = await axios.get(url);
+
+            const invisibleDownloadButton = document.createElement('a');
+            invisibleDownloadButton.setAttribute(
+                'href',
+                'data:text/plain;charset=utf-8,%EF%BB%BF' + encodeURI(response.data)
+            );
+            invisibleDownloadButton.setAttribute('download', `scanned-orders-${+new Date()}.csv`);
+            setTimeout(() => {
+                invisibleDownloadButton.click();
+                dialog.setLoading(false);
+                dialog.close();
+            }, 500);
+        } catch (e) {
+            console.log(e);
             dialog.setLoading(false);
-            dialog.close();
-        }, 500);
+            dialog.open({
+                type: DialogTypeEnum.error,
+                content: 'An error occurred while exporting orders',
+            });
+        }
+
+        // const countingTotalResponse = await handleFetchingOrders({
+        //     page: 0,
+        //     limit: 1,
+        // });
+        // const numberOfRequests = Math.ceil(countingTotalResponse.total / limit);
+        // let results: Record<string, unknown>[] = [];
+        // for (let i = 0; i < numberOfRequests; i++) {
+        //     const fetchingOrdersResponse = await handleFetchingOrders({ page: i, limit });
+        //     results = results.concat(fetchingOrdersResponse.records);
+        // }
+        // setTimeout(() => {
+        //     CSV.downloadFromJson({
+        //         name: `scanned-orders-${+new Date()}`,
+        //         data: results
+        //             .map((item) => new PandaObject(item))
+        //             .map((item) => ({
+        //                 'PO number': CSV.formatValueAdvance(`'${String(item.get('po_number'))}`),
+        //                 'Created date': CSV.formatValueAdvance(
+        //                     new PandaDate(
+        //                         String(item.get('date_created'))
+        //                     ).toDateTimeStringWithoutComma()
+        //                 ),
+        //             })),
+        //     });
+        //     dialog.setLoading(false);
+        //     dialog.close();
+        // }, 500);
     };
 
     React.useEffect(() => {
