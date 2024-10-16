@@ -79,8 +79,9 @@ export class PandaDate {
         const y = this._instance.getFullYear();
         const hours = this._instance.getHours();
         const minutes = this._instance.getMinutes();
+        const seconds = this._instance.getSeconds();
 
-        return `${d < 10 ? `0${d}` : d} ${locale.get(`month-short.m${m}`)}, ${y} - ${hours < 10 ? `0${hours}` : hours}:${minutes < 10 ? `0${minutes}` : minutes}`;
+        return `${d < 10 ? `0${d}` : d} ${locale.get(`month-short.m${m}`)}, ${y} - ${hours < 10 ? `0${hours}` : hours}:${minutes < 10 ? `0${minutes}` : minutes}:${seconds < 10 ? `0${seconds}` : seconds}`;
     }
 
     toTimeString(): string {

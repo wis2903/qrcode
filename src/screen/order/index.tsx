@@ -101,34 +101,6 @@ export default ({ onRequestScan }: IOrderScreenProps): JSX.Element => {
                 content: 'An error occurred while exporting orders',
             });
         }
-
-        // const countingTotalResponse = await handleFetchingOrders({
-        //     page: 0,
-        //     limit: 1,
-        // });
-        // const numberOfRequests = Math.ceil(countingTotalResponse.total / limit);
-        // let results: Record<string, unknown>[] = [];
-        // for (let i = 0; i < numberOfRequests; i++) {
-        //     const fetchingOrdersResponse = await handleFetchingOrders({ page: i, limit });
-        //     results = results.concat(fetchingOrdersResponse.records);
-        // }
-        // setTimeout(() => {
-        //     CSV.downloadFromJson({
-        //         name: `scanned-orders-${+new Date()}`,
-        //         data: results
-        //             .map((item) => new PandaObject(item))
-        //             .map((item) => ({
-        //                 'PO number': CSV.formatValueAdvance(`'${String(item.get('po_number'))}`),
-        //                 'Created date': CSV.formatValueAdvance(
-        //                     new PandaDate(
-        //                         String(item.get('date_created'))
-        //                     ).toDateTimeStringWithoutComma()
-        //                 ),
-        //             })),
-        //     });
-        //     dialog.setLoading(false);
-        //     dialog.close();
-        // }, 500);
     };
 
     React.useEffect(() => {
@@ -271,7 +243,7 @@ export default ({ onRequestScan }: IOrderScreenProps): JSX.Element => {
                                 <FlexboxComponent
                                     width="100%"
                                     gap="8px"
-                                    padding='2px 0'
+                                    padding="2px 0"
                                     direction={FlexboxVariant.direction.column}
                                 >
                                     <SkeletonComponent width="50%" />
