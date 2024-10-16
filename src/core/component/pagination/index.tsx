@@ -47,7 +47,7 @@ const PaginationComponent = ({
     }, [pageSize]);
 
     const items = React.useMemo((): number[] => {
-        const maxDisplayedEls = 9;
+        const maxDisplayedEls = 7;
         const distanceFromSelectedItem = Math.floor((maxDisplayedEls - 4) / 2);
         const arr: number[] = [];
 

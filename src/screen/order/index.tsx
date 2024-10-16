@@ -257,7 +257,7 @@ export default ({ onRequestScan }: IOrderScreenProps): JSX.Element => {
 
                 <ScrollAreaComponent
                     width="100%"
-                    maxHeight="calc(100svh - 232px)"
+                    maxHeight="calc(100svh - 240px)"
                     gap="12px"
                     padding="12px"
                     borderRadius="4px"
@@ -266,17 +266,18 @@ export default ({ onRequestScan }: IOrderScreenProps): JSX.Element => {
                     direction={FlexboxVariant.direction.column}
                 >
                     {fetching ? (
-                        Array.from({ length: 6 }).map((_, idx) => (
+                        Array.from({ length: 10 }).map((_, idx) => (
                             <React.Fragment key={idx}>
                                 <FlexboxComponent
                                     width="100%"
+                                    gap="8px"
+                                    padding='2px 0'
                                     direction={FlexboxVariant.direction.column}
-                                    gap="6px"
                                 >
                                     <SkeletonComponent width="50%" />
                                     <SkeletonComponent width="100%" />
                                 </FlexboxComponent>
-                                {idx !== 6 && (
+                                {idx !== 9 && (
                                     <DividerComponent
                                         color={token.get<string>('global.color.grey-7')}
                                     />
