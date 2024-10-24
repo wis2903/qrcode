@@ -4,6 +4,7 @@ import { ButtonComponent } from '../../core/component/button';
 import { FlexboxComponent } from '../../core/component/flexbox';
 import { PlainTextComponent } from '../../core/component/plain';
 import { FlexboxVariant } from '../../core/shared/constant';
+import { AppNameComponent } from '../../shared/component/app-name';
 import { useAuthProvider } from '../../shared/provider/auth';
 import { GoogleIcon } from './google-icon';
 import { StyledSignInButtonContainer, StyledSignInButtonDecoration } from './styled';
@@ -14,15 +15,19 @@ export default (): JSX.Element => {
     return (
         <FlexboxComponent
             width="100%"
-            minHeight="calc(100svh - 80px)"
+            minHeight="calc(100svh - 120px)"
             gap="20px"
             direction={FlexboxVariant.direction.column}
             align={FlexboxVariant.alignment.center}
             justify={FlexboxVariant.alignment.center}
         >
-            <FlexboxComponent margin="0 0 0 -80px" direction={FlexboxVariant.direction.column}>
-                <PlainTextComponent text="Sign In" fontSize="16px" fontWeight="300" />
-                <PlainTextComponent text="Panda scanning" fontSize="20px" fontWeight="bold" />
+            <FlexboxComponent
+                margin="0 0 0 -60px"
+                gap="8px"
+                direction={FlexboxVariant.direction.column}
+            >
+                <PlainTextComponent text="Sign In to" fontSize="16px" fontWeight="300" />
+                <AppNameComponent />
             </FlexboxComponent>
 
             <StyledSignInButtonContainer

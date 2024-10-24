@@ -23,6 +23,7 @@ import { PandaObject } from '../../core/shared/lib/object';
 import { DialogTypeEnum } from '../../core/shared/type';
 import { formatNumber } from '../../core/shared/util';
 import { QRCodeIcon } from '../../icon/qr-code';
+import { AppNameComponent } from '../../shared/component/app-name';
 import { useAuthProvider } from '../../shared/provider/auth';
 import { axiosInstanceWithAccessToken } from '../../shared/util/axios-instance';
 
@@ -341,15 +342,7 @@ const Header = (): JSX.Element => {
                     'rgba(50, 50, 93, 0.1) 0px 0px 8px 0px, rgba(0, 0, 0, 0.1) 0px 3px 7px -3px',
             }}
         >
-            <PlainTextComponent
-                ellipsis
-                width="240px"
-                minWidth="240px"
-                whiteSpace="nowrap"
-                text="Panda scanning"
-                fontSize="20px"
-                fontWeight="bold"
-            />
+            <AppNameComponent />
             <DropdownComponent closeOnClickInside toggleOnClickTrigger>
                 <DropdownComponentTrigger>
                     <FlexboxComponent
