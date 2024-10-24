@@ -23,3 +23,6 @@ yarn-debug.log*
 yarn-error.log*
 
 server.txt
+/src/env.json
+/src/env.local.json
+/src/env.production.json

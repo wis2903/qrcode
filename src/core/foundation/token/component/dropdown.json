@@ -6,7 +6,7 @@
         "radius": "radius.m"
     },
     "item": {
-        "font-size": "typo.font-size-7",
+        "font-size": "typo.font-size-6",
         "padding": "space.xxs space.xs",
         "divider-color": "color.grey-8",
         "background-color": {

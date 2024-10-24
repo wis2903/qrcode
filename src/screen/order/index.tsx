@@ -1,7 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable import/no-anonymous-default-export */
 
-import axios from 'axios';
 import React from 'react';
 
 import { ButtonComponent } from '../../core/component/button';
@@ -24,6 +23,16 @@ import { PandaObject } from '../../core/shared/lib/object';
 import { DialogTypeEnum } from '../../core/shared/type';
 import { formatNumber } from '../../core/shared/util';
 import { QRCodeIcon } from '../../icon/qr-code';
+import { useAuthProvider } from '../../shared/provider/auth';
+import { axiosInstanceWithAccessToken } from '../../shared/util/axios-instance';
+import {
+    DropdownComponent,
+    DropdownComponentContent,
+    DropdownComponentItem,
+    DropdownComponentMenu,
+    DropdownComponentTrigger,
+} from '../../core/component/dropdown';
+import { OutIconOutline } from '../../core/foundation/icon/outline/out';
 
 interface IOrderScreenProps {
     onRequestScan?: VoidFunction;
@@ -61,7 +70,9 @@ export default ({ onRequestScan }: IOrderScreenProps): JSX.Element => {
 
     const handleFetchingOrders = async (): Promise<IHandleFetchingOrdersResult> => {
         try {
-            const response = await axios.get(generateSearchUrlForCallingAPI());
+            const response = await axiosInstanceWithAccessToken.get(
+                generateSearchUrlForCallingAPI()
+            );
             const data = response.data.data;
             return {
                 total: Number(response.data.total) || 0,
@@ -80,7 +91,7 @@ export default ({ onRequestScan }: IOrderScreenProps): JSX.Element => {
         dialog.open({ content: '' });
         try {
             const url = generateSearchUrlForCallingAPI({ forExporting: true });
-            const response = await axios.get(url);
+            const response = await axiosInstanceWithAccessToken.get(url);
 
             const invisibleDownloadButton = document.createElement('a');
             invisibleDownloadButton.setAttribute(
@@ -128,17 +139,19 @@ export default ({ onRequestScan }: IOrderScreenProps): JSX.Element => {
     }, []);
 
     return (
-        <>
+        <FlexboxComponent
+            width="100%"
+            minHeight="100vh"
+            backgroundColor="white"
+            direction={FlexboxVariant.direction.column}
+        >
+            <Header />
             <FlexboxComponent
                 width="100%"
                 gap="8px"
-                padding="16px 16px"
+                padding="16px 16px 0"
                 align={FlexboxVariant.alignment.center}
                 justify={FlexboxVariant.alignment.justify}
-                style={{
-                    boxShadow:
-                        'rgba(50, 50, 93, 0.1) 0px 0px 8px 0px, rgba(0, 0, 0, 0.1) 0px 3px 7px -3px',
-                }}
             >
                 <PlainTextComponent
                     ellipsis
@@ -146,7 +159,7 @@ export default ({ onRequestScan }: IOrderScreenProps): JSX.Element => {
                     width="140px"
                     minWidth="140px"
                     text={`Orders ${total ? `(${formatNumber(total)})` : ''}`}
-                    fontSize="20px"
+                    fontSize="18px"
                     fontWeight="bold"
                 />
                 <FlexboxComponent width="100%" gap="8px" justify={FlexboxVariant.alignment.end}>
@@ -229,7 +242,8 @@ export default ({ onRequestScan }: IOrderScreenProps): JSX.Element => {
 
                 <ScrollAreaComponent
                     width="100%"
-                    maxHeight="calc(100svh - 240px)"
+                    maxHeight={total > 10 ? 'calc(100svh - 280px)' : 'calc(100svh - 240px)'}
+                    backgroundColor="white"
                     gap="12px"
                     padding="12px"
                     borderRadius="4px"
@@ -246,8 +260,9 @@ export default ({ onRequestScan }: IOrderScreenProps): JSX.Element => {
                                     padding="2px 0"
                                     direction={FlexboxVariant.direction.column}
                                 >
-                                    <SkeletonComponent width="50%" />
-                                    <SkeletonComponent width="100%" />
+                                    <SkeletonComponent width="60%" height="20px" />
+                                    <SkeletonComponent width="80%" height="12px" />
+                                    <SkeletonComponent width="80%" height="12px" />
                                 </FlexboxComponent>
                                 {idx !== 9 && (
                                     <DividerComponent
@@ -272,11 +287,24 @@ export default ({ onRequestScan }: IOrderScreenProps): JSX.Element => {
                                             ellipsis
                                             width="100%"
                                             whiteSpace="nowrap"
-                                            color={token.get<string>('global.color.grey-3')}
+                                            color={token.get<string>('global.color.grey-4')}
+                                            fontSize="13px"
                                             text={`Created at ${new PandaDate(
                                                 String(order.get('date_created'))
                                             ).toDateTimeString()}`}
                                         />
+                                        {!!order.get('created_user_id') && (
+                                            <PlainTextComponent
+                                                ellipsis
+                                                width="100%"
+                                                whiteSpace="nowrap"
+                                                color={token.get<string>('global.color.grey-4')}
+                                                fontSize="13px"
+                                                text={`Created by ${String(
+                                                    order.get('created_user_id')
+                                                )}`}
+                                            />
+                                        )}
                                     </FlexboxComponent>
                                     {idx !== orders.length - 1 && (
                                         <DividerComponent
@@ -304,6 +332,89 @@ export default ({ onRequestScan }: IOrderScreenProps): JSX.Element => {
                     }}
                 />
             </FlexboxComponent>
-        </>
+        </FlexboxComponent>
+    );
+};
+
+const Header = (): JSX.Element => {
+    const authProvider = useAuthProvider();
+
+    return (
+        <FlexboxComponent
+            width="100%"
+            gap="8px"
+            padding="8px 16px"
+            backgroundColor="white"
+            align={FlexboxVariant.alignment.center}
+            justify={FlexboxVariant.alignment.justify}
+            style={{
+                boxShadow:
+                    'rgba(50, 50, 93, 0.1) 0px 0px 8px 0px, rgba(0, 0, 0, 0.1) 0px 3px 7px -3px',
+            }}
+        >
+            <PlainTextComponent
+                ellipsis
+                width="240px"
+                minWidth="240px"
+                whiteSpace="nowrap"
+                text="Panda scanning"
+                fontSize="20px"
+                fontWeight="bold"
+            />
+            <DropdownComponent closeOnClickInside toggleOnClickTrigger>
+                <DropdownComponentTrigger>
+                    <FlexboxComponent
+                        width="40px"
+                        height="40px"
+                        borderRadius="50%"
+                        backgroundColor={token.get<string>('global.color.grey-7')}
+                        align={FlexboxVariant.alignment.center}
+                        justify={FlexboxVariant.alignment.center}
+                    >
+                        <PlainTextComponent
+                            fontSize="20px"
+                            fontWeight="bold"
+                            text={String(authProvider.profile?.email || '')
+                                .substring(0, 1)
+                                .toUpperCase()}
+                        />
+                    </FlexboxComponent>
+                </DropdownComponentTrigger>
+
+                <DropdownComponentContent>
+                    <DropdownComponentMenu>
+                        <>
+                            {authProvider.profile?.email && (
+                                <FlexboxComponent
+                                    width="100%"
+                                    padding="8px 12px 0"
+                                    gap="8px"
+                                    direction={FlexboxVariant.direction.column}
+                                >
+                                    <PlainTextComponent
+                                        ellipsis
+                                        whiteSpace="nowrap"
+                                        width="100%"
+                                        maxWidth="280px"
+                                        text={String(authProvider.profile?.email || '')}
+                                    />
+                                    <DividerComponent />
+                                </FlexboxComponent>
+                            )}
+                            <DropdownComponentItem onClick={authProvider.signOut}>
+                                Sign out
+                                <FlexboxComponent
+                                    justify={FlexboxVariant.alignment.end}
+                                    width="40px"
+                                    margin="4px 0 0"
+                                >
+                                    <OutIconOutline />
+                                </FlexboxComponent>
+                            </DropdownComponentItem>
+                        </>
+                    </DropdownComponentMenu>
+                </DropdownComponentContent>
+            </DropdownComponent>
+        </FlexboxComponent>
     );
 };

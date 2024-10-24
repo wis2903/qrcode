@@ -1,18 +1,19 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable import/no-anonymous-default-export */
 
-import axios from 'axios';
 import React from 'react';
 
 import { IDetectedBarcode, Scanner } from '@yudiel/react-qr-scanner';
 import { useDialogProvider } from '../../core/component/dialog/provider';
+import { FlexboxComponent } from '../../core/component/flexbox';
 import { CloseIconOutline } from '../../core/foundation/icon/outline/close';
 import { token } from '../../core/foundation/token';
 import { FlexboxVariant } from '../../core/shared/constant';
 import { PandaDebouncer } from '../../core/shared/lib/debouncer';
 import { PandaObject } from '../../core/shared/lib/object';
 import { DialogTypeEnum } from '../../core/shared/type';
+import { axiosInstanceWithAccessToken } from '../../shared/util/axios-instance';
 
-import { FlexboxComponent } from '../../core/component/flexbox';
 import {
     StyledCenterBox,
     StyledCenterBoxContainer,
@@ -50,7 +51,7 @@ export default ({ onClose }: IScanScreenProps): JSX.Element => {
             dialog.setLoading(true);
             dialog.open({ content: '' });
             setTimeout(() => {
-                axios
+                axiosInstanceWithAccessToken
                     .post('https://api.goku.dev/api/v1/pack-order', {
                         po_number: po,
                     })
