@@ -15,7 +15,7 @@ export default (): JSX.Element => {
     return (
         <FlexboxComponent
             width="100%"
-            minHeight="calc(100svh - 120px)"
+            minHeight="calc(100svh - 100px)"
             gap="20px"
             direction={FlexboxVariant.direction.column}
             align={FlexboxVariant.alignment.center}
