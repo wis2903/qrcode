@@ -50,29 +50,27 @@ export default ({ onClose }: IScanScreenProps): JSX.Element => {
             setProcessing(true);
             dialog.setLoading(true);
             dialog.open({ content: '' });
-            setTimeout(() => {
-                axiosInstanceWithAccessToken
-                    .post('https://api.goku.dev/api/v1/pack-order', {
-                        po_number: po,
-                    })
-                    .then(() => {
-                        dialog.setLoading(false);
-                        dialog.open({
-                            type: DialogTypeEnum.success,
-                            content: 'Order has been created',
-                            width: '260px',
-                        });
-                    })
-                    .catch(() => {
-                        dialog.setLoading(false);
-                        handleShowErrorDialog('An error occurred while creating order');
-                    })
-                    .finally(() => {
-                        debouncer.execute(() => {
-                            setProcessing(false);
-                        });
+            axiosInstanceWithAccessToken
+                .post('/api/v1/pack-order', {
+                    po_number: po,
+                })
+                .then(() => {
+                    dialog.setLoading(false);
+                    dialog.open({
+                        type: DialogTypeEnum.success,
+                        content: 'Order has been created',
+                        width: '260px',
                     });
-            }, 500);
+                })
+                .catch(() => {
+                    dialog.setLoading(false);
+                    handleShowErrorDialog('An error occurred while creating order');
+                })
+                .finally(() => {
+                    debouncer.execute(() => {
+                        setProcessing(false);
+                    });
+                });
         } catch (e) {
             handleShowErrorDialog('An error occurred while scanning the QR code');
         }

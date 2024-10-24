@@ -9,7 +9,11 @@ const axiosInstanceWithAccessToken = axios.create({
 
 axiosInstanceWithAccessToken.interceptors.response.use(
     function (response) {
-        return response;
+        return new Promise((resolve) => {
+            setTimeout(() => {
+                resolve(response);
+            }, 500);
+        });
     },
     function (error) {
         if (error?.status === 401) {

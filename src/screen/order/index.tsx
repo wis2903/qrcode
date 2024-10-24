@@ -14,17 +14,18 @@ import { ScrollAreaComponent } from '../../core/component/scrollarea';
 import { SkeletonComponent } from '../../core/component/skeleton';
 import { TextboxComponent } from '../../core/component/textbox';
 import { DownloadIconOutline } from '../../core/foundation/icon/outline/download';
+import { OutIconOutline } from '../../core/foundation/icon/outline/out';
 import { SearchIconOutline } from '../../core/foundation/icon/outline/search';
 import { token } from '../../core/foundation/token';
 import { FlexboxVariant } from '../../core/shared/constant';
 import { PandaDate } from '../../core/shared/lib/date';
-import { PandaDebouncer } from '../../core/shared/lib/debouncer';
 import { PandaObject } from '../../core/shared/lib/object';
 import { DialogTypeEnum } from '../../core/shared/type';
 import { formatNumber } from '../../core/shared/util';
 import { QRCodeIcon } from '../../icon/qr-code';
 import { useAuthProvider } from '../../shared/provider/auth';
 import { axiosInstanceWithAccessToken } from '../../shared/util/axios-instance';
+
 import {
     DropdownComponent,
     DropdownComponentContent,
@@ -32,7 +33,6 @@ import {
     DropdownComponentMenu,
     DropdownComponentTrigger,
 } from '../../core/component/dropdown';
-import { OutIconOutline } from '../../core/foundation/icon/outline/out';
 
 interface IOrderScreenProps {
     onRequestScan?: VoidFunction;
@@ -45,7 +45,6 @@ interface IHandleFetchingOrdersResult {
 export default ({ onRequestScan }: IOrderScreenProps): JSX.Element => {
     const dialog = useDialogProvider();
 
-    const [debouncer] = React.useState<PandaDebouncer>(new PandaDebouncer(500));
     const [fetching, setFetching] = React.useState<boolean>(true);
     const [orders, setOrders] = React.useState<Record<string, unknown>[]>([]);
     const [total, setTotal] = React.useState<number>(0);
@@ -56,7 +55,7 @@ export default ({ onRequestScan }: IOrderScreenProps): JSX.Element => {
     const [page, setPage] = React.useState<number>(0);
 
     const generateSearchUrlForCallingAPI = (config?: { forExporting: boolean }): string => {
-        let url = `https://api.goku.dev/api/v1/pack-order${config?.forExporting ? '/export' : ''}`;
+        let url = `/api/v1/pack-order${config?.forExporting ? '/export' : ''}`;
         if (!config?.forExporting) url += `?limit=${limit}&page=${page + 1}`;
         else url += `?ts=${+new Date()}`;
         if (keyword) url += `&keyword=${keyword}`;
@@ -99,11 +98,9 @@ export default ({ onRequestScan }: IOrderScreenProps): JSX.Element => {
                 'data:text/plain;charset=utf-8,%EF%BB%BF' + encodeURI(response.data)
             );
             invisibleDownloadButton.setAttribute('download', `scanned-orders-${+new Date()}.csv`);
-            setTimeout(() => {
-                invisibleDownloadButton.click();
-                dialog.setLoading(false);
-                dialog.close();
-            }, 500);
+            invisibleDownloadButton.click();
+            dialog.setLoading(false);
+            dialog.close();
         } catch (e) {
             console.log(e);
             dialog.setLoading(false);
@@ -117,11 +114,9 @@ export default ({ onRequestScan }: IOrderScreenProps): JSX.Element => {
     React.useEffect(() => {
         setFetching(true);
         handleFetchingOrders().then(({ total: _total, records: _records }) => {
-            debouncer.execute(() => {
-                setTotal(_total);
-                setOrders(_records);
-                setFetching(false);
-            });
+            setTotal(_total);
+            setOrders(_records);
+            setFetching(false);
         });
     }, [
         JSON.stringify({
@@ -131,12 +126,6 @@ export default ({ onRequestScan }: IOrderScreenProps): JSX.Element => {
             page,
         }),
     ]);
-
-    React.useEffect(() => {
-        return (): void => {
-            debouncer.destroy();
-        };
-    }, []);
 
     return (
         <FlexboxComponent
@@ -287,9 +276,9 @@ export default ({ onRequestScan }: IOrderScreenProps): JSX.Element => {
                                             ellipsis
                                             width="100%"
                                             whiteSpace="nowrap"
-                                            color={token.get<string>('global.color.grey-4')}
+                                            color={token.get<string>('global.color.grey-3')}
                                             fontSize="13px"
-                                            text={`Created at ${new PandaDate(
+                                            text={`Scanned at ${new PandaDate(
                                                 String(order.get('date_created'))
                                             ).toDateTimeString()}`}
                                         />
@@ -298,9 +287,9 @@ export default ({ onRequestScan }: IOrderScreenProps): JSX.Element => {
                                                 ellipsis
                                                 width="100%"
                                                 whiteSpace="nowrap"
-                                                color={token.get<string>('global.color.grey-4')}
+                                                color={token.get<string>('global.color.grey-3')}
                                                 fontSize="13px"
-                                                text={`Created by ${String(
+                                                text={`Scanned by ${String(
                                                     order.get('created_user_id')
                                                 )}`}
                                             />
