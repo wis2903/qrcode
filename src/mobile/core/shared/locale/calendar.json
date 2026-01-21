@@ -1,0 +1,108 @@
+{
+    "en": {
+        "day": {
+            "d0": "Su",
+            "d1": "Mo",
+            "d2": "Tu",
+            "d3": "We",
+            "d4": "Th",
+            "d5": "Fr",
+            "d6": "Sa"
+        },
+        "month": {
+            "m0": "Jan",
+            "m1": "Feb",
+            "m2": "Mar",
+            "m3": "Apr",
+            "m4": "May",
+            "m5": "Jun",
+            "m6": "Jul",
+            "m7": "Aug",
+            "m8": "Sep",
+            "m9": "Oct",
+            "m10": "Nov",
+            "m11": "Dec"
+        },
+        "month-short": {
+            "m0": "Jan",
+            "m1": "Feb",
+            "m2": "Mar",
+            "m3": "Apr",
+            "m4": "May",
+            "m5": "Jun",
+            "m6": "Jul",
+            "m7": "Aug",
+            "m8": "Sep",
+            "m9": "Oct",
+            "m10": "Nov",
+            "m11": "Dec"
+        },
+        "month-full": {
+            "m0": "January",
+            "m1": "February",
+            "m2": "March",
+            "m3": "April",
+            "m4": "May",
+            "m5": "June",
+            "m6": "July",
+            "m7": "August",
+            "m8": "September",
+            "m9": "October",
+            "m10": "November",
+            "m11": "December"
+        }
+    },
+    "vi": {
+        "day": {
+            "d0": "CN",
+            "d1": "T2",
+            "d2": "T3",
+            "d3": "T4",
+            "d4": "T5",
+            "d5": "T6",
+            "d6": "T7"
+        },
+        "month": {
+            "m0": "Tháng 1",
+            "m1": "Tháng 2",
+            "m2": "Tháng 3",
+            "m3": "Tháng 4",
+            "m4": "Tháng 5",
+            "m5": "Tháng 6",
+            "m6": "Tháng 7",
+            "m7": "Tháng 8",
+            "m8": "Tháng 9",
+            "m9": "Tháng 10",
+            "m10": "Tháng 11",
+            "m11": "Tháng 12"
+        },
+        "month-short": {
+            "m0": "Thg 1",
+            "m1": "Thg 2",
+            "m2": "Thg 3",
+            "m3": "Thg 4",
+            "m4": "Thg 5",
+            "m5": "Thg 6",
+            "m6": "Thg 7",
+            "m7": "Thg 8",
+            "m8": "Thg 9",
+            "m9": "Thg 10",
+            "m10": "Thg 11",
+            "m11": "Thg 12"
+        },
+        "month-full": {
+            "m0": "Tháng 1",
+            "m1": "Tháng 2",
+            "m2": "Tháng 3",
+            "m3": "Tháng 4",
+            "m4": "Tháng 5",
+            "m5": "Tháng 6",
+            "m6": "Tháng 7",
+            "m7": "Tháng 8",
+            "m8": "Tháng 9",
+            "m9": "Tháng 10",
+            "m10": "Tháng 11",
+            "m11": "Tháng 12"
+        }
+    }
+}

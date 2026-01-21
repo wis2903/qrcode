@@ -1,0 +1,12 @@
+{
+    "en": {
+        "entries": "entries",
+        "entries-per-page": "entries per page",
+        "of": "of"
+    },
+    "vi": {
+        "entries": "mục",
+        "entries-per-page": "mục mỗi trang",
+        "of": "trên tổng"
+    }
+}

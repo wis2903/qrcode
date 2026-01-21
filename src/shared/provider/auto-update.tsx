@@ -3,9 +3,13 @@ import axios from 'axios';
 import React from 'react';
 import env from '../../env.json';
 
-import { useDialogProvider } from '../../core/component/dialog/provider';
-import { PlainTextComponent } from '../../core/component/plain';
-import { token } from '../../core/foundation/token';
+import { ButtonComponent } from '../../mobile/core/component/button';
+import { useDialogProvider } from '../../mobile/core/component/dialog/provider';
+import { FlexboxComponent } from '../../mobile/core/component/flexbox';
+import { PlainTextComponent } from '../../mobile/core/component/plain';
+import { token } from '../../mobile/core/foundation/token';
+import { FlexboxVariant } from '../../mobile/core/shared/constant';
+import { DialogTypeEnum } from '../../mobile/core/shared/type';
 
 export const AutoUpdateProvider = ({ children }: React.PropsWithChildren): JSX.Element => {
     const dialog = useDialogProvider();
@@ -28,25 +32,41 @@ export const AutoUpdateProvider = ({ children }: React.PropsWithChildren): JSX.E
                 if (env.version !== version) {
                     clearInterval(intervalHandlerRef.current);
                     dialog.open({
+                        width: 'min(90vw, 420px)',
+                        hiddenCloseButton: true,
+                        hiddenFooter: true,
+                        type: DialogTypeEnum.info,
                         title: 'New version available',
                         content: (
-                            <PlainTextComponent
-                                text="New version has been released. Reload app to starting using the latest version"
-                                color={token.get<string>('global.color.grey-2')}
-                            />
+                            <FlexboxComponent
+                                direction={FlexboxVariant.direction.column}
+                                gap="32px"
+                            >
+                                <PlainTextComponent
+                                    text="New version has been released. Please refresh to start using the latest version"
+                                    color={token.get<string>('global.color.grey-2')}
+                                />
+
+                                <FlexboxComponent
+                                    width="100%"
+                                    justify={FlexboxVariant.alignment.end}
+                                >
+                                    <ButtonComponent
+                                        padding="6px 12px"
+                                        borderRadius="4px"
+                                        onClick={(): void => {
+                                            window.location.reload();
+                                        }}
+                                    >
+                                        Refresh to update
+                                    </ButtonComponent>
+                                </FlexboxComponent>
+                            </FlexboxComponent>
                         ),
-                        cancelButtonText: 'Close',
-                        confirmButtonText: 'Reload',
-                        onClose: handleStartCheckingForUpdates,
-                        onCancel: () => {
-                            dialog.close();
-                            handleStartCheckingForUpdates();
-                        },
-                        onConfirm: (): void => window.location.reload(),
                     });
                 }
             });
-        }, 1000 * 60 * 2); // 2 mins
+        }, 1000 * 10); // 2 mins
     };
 
     React.useEffect(() => {

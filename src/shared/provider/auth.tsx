@@ -4,7 +4,7 @@ import React from 'react';
 import env from '../../env.json';
 
 import { StorageKeyEnum } from '../type/common';
-import { axiosInstanceWithAccessToken } from '../util/axios-instance';
+import { axiosInstanceWithAccessToken } from '../util';
 
 interface IAuthContextValue {
     isAuthenticated?: boolean;

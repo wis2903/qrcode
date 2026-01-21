@@ -1,0 +1,18 @@
+{
+    "menu": {
+        "background-color": "color.white",
+        "padding": "space.mxxxs space.zero",
+        "border-color": "color.grey-6",
+        "radius": "radius.s"
+    },
+    "item": {
+        "font-size": "typo.font-size-7",
+        "padding": "space.xxs space.s",
+        "divider-color": "color.grey-8",
+        "background-color": {
+            "default": "color.white",
+            "hover": "color.grey-8",
+            "active": "color.grey-7"
+        }
+    }
+}

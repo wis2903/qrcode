@@ -1,0 +1,63 @@
+@font-face {
+    font-family: Oxanium;
+    src: url('../font/oxanium-viet-hoa/Regular.otf');
+    font-weight: 400;
+}
+
+@font-face {
+    font-family: Oxanium;
+    src: url('../font/oxanium-viet-hoa/Bold.otf');
+    font-weight: 600;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Noto Sans', sans-serif;
+    font-optical-sizing: auto;
+    font-style: normal;
+    font-variation-settings: 'wdth' 100;
+    letter-spacing: -0.3px;
+}
+
+body * {
+    box-sizing: border-box;
+    font-family: 'Noto Sans', sans-serif;
+    font-optical-sizing: auto;
+    font-style: normal;
+    font-variation-settings: 'wdth' 100;
+    letter-spacing: -0.3px;
+}
+
+::-webkit-scrollbar {
+    display: none;
+}
+
+::-webkit-scrollbar-button {
+    display: none;
+}
+
+button,
+div {
+    outline: none;
+}
+
+.app-container,
+.app-sign-in-container {
+    font-size: 16px;
+    font-family: 'Noto Sans', sans-serif;
+    font-optical-sizing: auto;
+    font-style: normal;
+    font-variation-settings: 'wdth' 100;
+    letter-spacing: -0.3px;
+    width: 100%;
+    max-width: 460px;
+    margin: auto;
+}
+
+@media screen and (min-width: 480px) {
+    .app-sign-in-container * {
+        font-family: Oxanium;
+        letter-spacing: 0;
+    }
+}

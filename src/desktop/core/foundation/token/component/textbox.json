@@ -1,0 +1,19 @@
+{
+    "radius": "radius.m",
+    "font-size": "typo.font-size-7",
+    "padding": "space.xxs space.s",
+    "placeholder-color": "color.grey-4",
+    "border-color": {
+        "default": "color.grey-4",
+        "focus": "color.primary"
+    },
+    "background-color": {
+        "default": "color.white",
+        "hover": "color.grey-9",
+        "disabled": "color.grey-7"
+    },
+    "text-color": {
+        "default": "color.grey-1",
+        "disabled": "color.grey-3"
+    }
+}
